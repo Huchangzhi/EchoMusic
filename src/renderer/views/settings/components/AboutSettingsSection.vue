@@ -4,6 +4,8 @@ import { useSettingStore } from '@/stores/setting';
 import Button from '@/components/ui/Button.vue';
 import Switch from '@/components/ui/Switch.vue';
 import FontIcon from '@/components/ui/FontIcon.vue';
+import { isWebApp } from '@/web/shim';
+import { openServerSetup } from '@/web/serverConfig';
 import { Icon } from '@iconify/vue';
 import { iconChevronRight, iconExternalLink } from '@/icons';
 import SettingsSectionShell from './SettingsSectionShell.vue';
@@ -86,6 +88,23 @@ defineProps<{
         </Button>
       </div>
     </div>
+    <template v-if="isWebApp">
+      <div class="settings-divider"></div>
+      <div class="settings-item">
+        <div class="space-y-1">
+          <h3 class="font-semibold">API 服务端地址</h3>
+          <p class="text-sm text-text-secondary">浏览器版用于连接独立部署的 API 服务</p>
+        </div>
+        <Button
+          variant="ghost"
+          size="xs"
+          class="text-primary text-sm font-semibold"
+          @click="openServerSetup"
+        >
+          重新设置
+        </Button>
+      </div>
+    </template>
     <div class="settings-divider"></div>
     <div class="settings-item">
       <div class="space-y-1">

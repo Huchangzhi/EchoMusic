@@ -11,6 +11,7 @@ import {
 import { RouterView, useRoute, useRouter } from 'vue-router';
 import AuthExpiredDialog from '@/components/app/AuthExpiredDialog.vue';
 import KugouVerificationFlow from '@/components/app/KugouVerificationFlow.vue';
+import ServerSetup from '@/components/app/ServerSetup.vue';
 import ToastViewport from '@/components/app/ToastViewport.vue';
 import UpdateDialog from '@/components/app/UpdateDialog.vue';
 import RouteErrorBoundary from '@/components/app/RouteErrorBoundary.vue';
@@ -502,6 +503,7 @@ watch(
   <KugouVerificationFlow v-if="!isMiniPlayerRoute" />
   <ToastViewport v-if="!isMiniPlayerRoute" :lyric-view-open="Boolean(player?.isLyricViewOpen)" />
   <UpdateDialog v-if="!isMiniPlayerRoute" dismiss-label="稍后" />
+  <ServerSetup v-if="!isMiniPlayerRoute" />
 </template>
 
 <style>

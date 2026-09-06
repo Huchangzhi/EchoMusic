@@ -1,3 +1,5 @@
+import './web/shim';
+import { runWebShimSelfCheck } from './web/shim';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { Icon } from '@iconify/vue';
@@ -11,6 +13,12 @@ import { installPluginRuntime } from '@/plugins/runtime';
 import { installInputBehaviorGuard } from '@/utils/inputBehaviorGuard';
 import { startRendererMemoryDiagnostics } from '@/utils/rendererMemoryDiagnostics';
 import './style.css';
+
+if (import.meta.env.DEV) {
+  runWebShimSelfCheck().catch((error) => {
+    console.error('[web-shim] self-check failed', error);
+  });
+}
 
 const app = createApp(App);
 const pinia = createPinia();

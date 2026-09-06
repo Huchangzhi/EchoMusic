@@ -14,6 +14,7 @@ import Button from '@/components/ui/Button.vue';
 import Scrollbar from '@/components/ui/Scrollbar.vue';
 import RefreshIcon from '@/components/ui/RefreshIcon.vue';
 import Dialog from '@/components/ui/Dialog.vue';
+import { isWebApp } from '@/web/shim';
 import {
   iconChevronLeft,
   iconChevronRight,
@@ -515,8 +516,8 @@ onUnmounted(() => {
     <!-- 2. 中间：拖拽区域 -->
     <div class="flex-1 h-full"></div>
 
-    <!-- 3. 右侧：mini 模式与窗口控制 -->
-    <div class="window-controls flex items-center no-drag h-full relative z-10">
+    <!-- 3. 右侧：mini 模式与窗口控制（web 版无窗口可控制，隐藏） -->
+    <div v-if="!isWebApp" class="window-controls flex items-center no-drag h-full relative z-10">
       <Button
         variant="unstyled"
         size="none"

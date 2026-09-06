@@ -1,7 +1,5 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import electron from 'vite-plugin-electron';
-import renderer from 'vite-plugin-electron-renderer';
 import tailwindcss from '@tailwindcss/vite';
 import { resolve } from 'path';
 import { mkdirSync, writeFileSync } from 'fs';
@@ -39,6 +37,7 @@ const bundleAnalysisPlugin = () => ({
 
 export default defineConfig({
   build: {
+    outDir: 'dist',
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
@@ -47,52 +46,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [
-    vue(),
-    tailwindcss(),
-    bundleAnalysisPlugin(),
-    electron([
-      {
-        entry: 'src/main/index.ts',
-        onstart(options) {
-          options.startup(['.', '--no-sandbox', '--no-stdio-init']);
-        },
-        vite: {
-          build: {
-            outDir: 'dist-electron/main',
-            emptyOutDir: true,
-            rollupOptions: {
-              external: [
-                'electron',
-                'font-list',
-                'electron-audio-loopback',
-                'music-metadata',
-                '../../native/echo-media-controls',
-                '../../native/echo-ffmpeg-player',
-                '../../native/echo-sqlite-store',
-              ],
-            },
-          },
-        },
-      },
-      {
-        entry: 'src/preload/index.ts',
-        onstart(options) {
-          options.reload();
-        },
-        vite: {
-          build: {
-            outDir: 'dist-electron/preload', // 明确预加载脚本输出目录
-            emptyOutDir: true,
-          },
-        },
-      },
-    ]),
-    renderer(),
-  ].filter(Boolean),
-  server: {
-    // dev 模式下 API 请求通过 IPC 直连 main 进程，不再需要 HTTP proxy
-  },
+  plugins: [vue(), tailwindcss(), bundleAnalysisPlugin()],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src/renderer'),
